@@ -1,0 +1,40 @@
+{
+  "index_patterns": ["api-events-*"],
+  "template": {
+    "settings": {
+      "analysis": {
+        "tokenizer": {
+          "edge_ngram_tokenizer": {
+            "type": "edge_ngram",
+            "min_gram": 2,
+            "max_gram": 20,
+            "token_chars": ["letter", "digit"]
+          }
+        },
+        "analyzer": {
+          "edge_ngram_analyzer": {
+            "type": "custom",
+            "tokenizer": "edge_ngram_tokenizer",
+            "filter": ["lowercase"]
+          }
+        }
+      }
+    },
+    "mappings": {
+      "properties": {
+        "timestamp": { "type": "date" },
+        "temp": { "type": "float" },
+        "city": {
+          "type": "text",
+          "fields": {
+            "ngram": {
+              "type": "text",
+              "analyzer": "edge_ngram_analyzer"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
