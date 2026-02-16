@@ -1,0 +1,1 @@
+{"took":15,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":7,"relation":"eq"},"max_score":null,"hits":[]},"aggregations":{"par_ville":{"doc_count_error_upper_bound":0,"sum_other_doc_count":0,"buckets":[{"key":"Paris","doc_count":7,"temp_moy":{"value":7.414285659790039}}]}}}

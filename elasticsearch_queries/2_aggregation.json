@@ -1,0 +1,18 @@
+{
+  "size": 0,
+  "aggs": {
+    "par_ville": {
+      "terms": {
+        "field": "city.keyword",
+        "size": 10
+      },
+      "aggs": {
+        "temp_moy": {
+          "avg": {
+            "field": "temp"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1 @@
+{"took":1,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":7,"relation":"eq"},"max_score":null,"hits":[]},"aggregations":{"par_heure":{"buckets":[{"key_as_string":"2026-02-16T22:00:00.000Z","key":1771279200000,"doc_count":7,"temp_moy":{"value":7.414285659790039}}]}}}

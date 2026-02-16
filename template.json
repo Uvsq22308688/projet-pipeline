@@ -27,14 +27,14 @@
         "city": {
           "type": "text",
           "fields": {
-            "ngram": {
-              "type": "text",
-              "analyzer": "edge_ngram_analyzer"
+              "keyword": { "type": "keyword" },
+              "ngram": { "type": "text", "analyzer": "edge_ngram_analyzer" }
+
             }
           }
         }
       }
     }
   }
-}
+
 

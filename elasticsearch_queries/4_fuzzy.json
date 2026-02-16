@@ -1,0 +1,10 @@
+{
+  "query": {
+    "fuzzy": {
+      "city": {
+        "value": "Pariss",
+        "fuzziness": "AUTO"
+      }
+    }
+  }
+}
