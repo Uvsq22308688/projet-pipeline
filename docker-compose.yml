@@ -49,3 +49,9 @@ services:
     volumes:
       - ./logstash/pipeline.conf:/usr/share/logstash/pipeline/logstash.conf:ro
 
+  collector:
+    build: ./collector
+    depends_on:
+      - kafka
+    restart: unless-stopped
+    command: ["python", "-u", "producer.py"]

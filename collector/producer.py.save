@@ -1,0 +1,48 @@
+import json
+import time
+import requests
+from kafka import KafkaProducer
+
+KAFKA_BOOTSTRAP = "kafka:9092"
+TOPIC = "api-events"
+
+# Connexion Kafka avec retry
+producer = None
+while producer is None:
+    try:
+        producer = KafkaProducer(
+            bootstrap_servers=KAFKA_BOOTSTRAP,
+            value_serializer=lambda v: json.dumps(v).encode("utf-8"),
+            api_version_auto_timeout_ms=10000,
+            request_timeout_ms=10000,
+        )
+        print("✅ Connecté à Kafka", flush=True)
+    except Exception as e:
+        print("⏳ Kafka pas prêt, nouvelle tentative dans 5s...", e, flush=True)
+        time.sleep(5)
+
+API_URL = "https://api.open-meteo.com/v1/forecast?latitude=48.85&longitude=2.35&current_weather=true"
+
+while True:
+    try:
+        r = requests.get(API_URL, timeout=10)
+        r.raise_for_status()
+        data = r.json()
+
+        event = {
+            "city": "Paris",
+            "temp": float(data["current_weather"]["temperature"]),
+            "description": "live_weather",
+            "timestamp": data["current_weather"]["time"],
+            "source": "open-meteo"
+        }
+
+        producer.send(TOPIC, event)
+        producer.flush()  # ✅ force l'envoi immédiat
+        print("Sent:", event, flush=True)
+
+        time.sleep(10)
+
+    except Exception as e:
+        print("Error:", e, flush=True)
+        time.sleep(5)
