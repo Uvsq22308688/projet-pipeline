@@ -1,7 +1,5 @@
 version: '3.8'
-
 services:
-
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.3
     environment:
@@ -55,3 +53,27 @@ services:
       - kafka
     restart: unless-stopped
     command: ["python", "-u", "producer.py"]
+
+  spark:
+    image: jupyter/pyspark-notebook:latest
+    container_name: spark
+    depends_on:
+      - elasticsearch
+    ports:
+      - "8888:8888"   # Jupyter
+      - "4040:4040"   # Spark UI (jobs)
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    command: >
+      start-notebook.sh
+      --ServerApp.ip=0.0.0.0
+      --ServerApp.port=8888
+      --ServerApp.open_browser=False
+      --ServerApp.allow_remote_access=True
+      --ServerApp.trust_xheaders=True
+      --ServerApp.token=''
+      --ServerApp.password=''
+      --ServerApp.disable_check_xsrf=True
+      --ServerApp.allow_origin='*'
+    volumes:
+      - ./spark:/home/jovyan/work
